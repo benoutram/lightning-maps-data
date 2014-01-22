@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Car Parks</title>
+		<link rel="stylesheet"
+		href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+		<link
+		href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
+		rel="stylesheet">
+		<link rel="stylesheet" href="css/side-menu.css">
+		<script type="text/javascript" src="js/ui.js"></script>
+		<script type="text/javascript" src="js/import-form.js"></script>
+		<script src="http://use.typekit.net/gis6vng.js"></script>
+		<script type="text/javascript"
+		src="http://documentcloud.github.io/underscore/underscore-min.js"></script>
+		<script>
+			try {
+				Typekit.load();
+			} catch (e) {
+			}
+		</script>
+	</head>
+	<body>
+		<div id="layout">
+			<!-- Menu toggle -->
+			<a href="#menu" id="menuLink" class="menu-link"> <!-- Hamburger icon --> <span></span> </a>
+			<div id="menu">
+				<div class="pure-menu pure-menu-open">
+					<a class="pure-menu-heading" href="#">Data Import</a>
+					<ul>
+						<li class="menu-item-divided">
+							<a
+							href="accidents.html"><i
+							class="fa fa-ambulance"></i> Accidents</a>
+						</li>
+						<li class="pure-menu-selected menu-item-divided">
+							<a
+							href="carparks.html"><i
+							class="fa fa-building-o"></i> Car Parks</a>
+						</li>
+						<li class="menu-item-divided">
+							<a
+							href="penaltypoints.html"><i
+							class="fa fa-tachometer"></i> Penalty Points</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="main">
+				<div class="header">
+					<h1><i class="fa fa-building-o"></i> Car Parks </h1>
+					<h2>Locations of Public Car Parks</h2>
+				</div>
+				<div class="content">
+					<form id="import-form" class="pure-form"
+					action="http://localhost:8081/import" method="post">
+						<fieldset>
+							<legend>
+								Import
+							</legend>
+							<script>
+								new ImportForm(document.getElementById('import-form'), 'carPark').init(_.map(_.range(1, 9), function(index) {
+									return 'CarParkData_' + index + '.xml';
+								}));
+							</script>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
