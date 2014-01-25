@@ -1,0 +1,59 @@
+#!/bin/sh
+
+##
+##To enable authentication in mongo run the following and then start mongod with the --auth flag.
+##use admin
+##db.addUser( { user: "<insert-username-here>", pwd: "<insert-password-here>", roles: [ "userAdminAnyDatabase" ] } )
+##
+##Start mongod with the --auth flag
+##Connect to mongo specifying the admin database, i.e. mongo --username <username> --password <password> admin.
+##Show admin users using db.system.users.find()
+##
+##Add a database with an admin user
+##use <database-name-here>
+##db.addUser( { user: "<insert-username-here>", pwd: "<insert-password-here>", roles: [ "readWrite", "dbAdmin" ] } )
+##
+
+host=localhost
+port=27017
+username=$1
+password=$2
+import_type=json
+mongo_db=$3
+mongo_collection=$4
+filename=$5
+
+if [ -z "$1" ]
+  then
+    echo "No username argument supplied!"
+    exit 1
+fi
+
+if [ -z "$2" ]
+  then
+    echo "No password argument supplied!"
+    exit 1
+fi
+
+
+if [ -z "$3" ]
+  then
+    echo "No db argument supplied!"
+    exit 1
+fi
+
+if [ -z "$4" ]
+  then
+    echo "No collection argument supplied!"
+    exit 1
+fi
+
+
+if [ -z "$5" ]
+  then
+    echo "No filename argument supplied!"
+    exit 1
+fi
+
+
+mongoimport --host $host --port $port --username $username --password $password --collection $mongo_collection --db $mongo_db --file $filename --type json --jsonArray --drop --stopOnError

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+username='lm-user'
+password='password'
+db='lightning-maps'
+postcode_districts_collection='postcodeDistricts'
+penalty_postcode_collection='penaltyPostcode'
+test_postcode='S10'
+
+## Import postcode districts
+echo "\033[1;35m\n\nImporting postcode districts into $postcode_districts_collection"
+echo "\033[0m"
+../scripts/mongoimport $username $password $db $postcode_districts_collection postcode_districts.json
+
+
+## Transform to remove unwanted fields
+echo "\033[1;35m\n\nTransforming to remove unwanted fields"
+echo "\033[0m"
+mongo --username $username --password $password $db remove_unwanted_fields.js
+
+## Run a test query for postcode dis
+echo "\033[1;35m\n\nTest query for $test_postcode in collection $postcode_districts_collection"
+echo "\033[0m"
+mongo --username $username --password $password $db --eval "db.$postcode_districts_collection.find({\"PCDistrict\" : \"$test_postcode\"}).forEach(printjson)"
+
+## Add postcode districts to penalty points
+echo "\033[1;35m\n\nAdding postcode districts to penalty points"
+echo "\033[0m"
+mongo --username $username --password $password $db add_to_penalty_postcodes.js
+
+## Run a test query
+echo "\033[1;35m\n\nTest query for $test_postcode in collection $penalty_postcode_collection"
+echo "\033[0m"
+mongo --username $username --password $password $db --eval "db.$penalty_postcode_collection.find({\"District\" : \"$test_postcode\"}).forEach(printjson)"

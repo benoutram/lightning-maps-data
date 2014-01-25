@@ -5,9 +5,13 @@ import com.mongodb.casbah.MongoCollection
 import com.mongodb.casbah.MongoDB
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.commons.MongoDBObject
+import com.mongodb.ServerAddress
+import com.mongodb.casbah.Imports.MongoCredential
 
-class Mongo(host: String = DbProperties.DEFAULT_DATABASE_HOST, port: Int = DbProperties.DEFAULT_DATABASE_PORT, dbName: String) {
-  private val client: MongoClient = MongoClient(host, port)
+class Mongo(host: String = DbProperties.DEFAULT_DATABASE_HOST, port: Int = DbProperties.DEFAULT_DATABASE_PORT, userName: String, password: String, dbName: String) {
+  private val server: ServerAddress = new ServerAddress(host, port)
+  private val credential: MongoCredential = MongoCredential(userName, dbName, password.toArray)
+  private val client: MongoClient = MongoClient(server, List(credential))
   private val db: MongoDB = client(dbName)
 
   def collection(collectionName: String): MongoCollection = {
@@ -40,7 +44,7 @@ class Mongo(host: String = DbProperties.DEFAULT_DATABASE_HOST, port: Int = DbPro
 }
 
 object Mongo {
-  private val client = new Mongo(dbName = DbProperties.DEFAULT_DATABASE_NAME)
+  private val client = new Mongo(userName=DbProperties.DEFAULT_DATABASE_USERNAME, password="password", dbName = DbProperties.DEFAULT_DATABASE_NAME)
 
   def insert(collectionName: String, vals: List[(String, Any)]): Unit = {
     client.insert(collectionName, vals)

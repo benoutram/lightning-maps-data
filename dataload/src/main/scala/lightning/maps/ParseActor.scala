@@ -48,7 +48,7 @@ trait ParseActorService extends HttpService {
               parseDataFile(service, filename)
               <html>
                 <body>
-                  <h1>Say hello to <i>spray-routing</i> on <i>spray-can</i></h1>
+                  <h1>Parsing for data file <i>{filename.getOrElse("No filename!")}</i> using service <i>{service.getOrElse("No service!")}</i> is complete.</h1>
                 </body>
               </html>
             }

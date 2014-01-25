@@ -1,0 +1,17 @@
+#!/bin/sh
+
+username='lm-user'
+password='password'
+db='lightning-maps'
+penalty_postcode_collection='penaltyPostcode'
+test_postcode='S10'
+
+## Reduce points to a cumulative figure
+echo "\033[1;35m\n\nReducing points to a cumulative figure"
+echo "\033[0m"
+mongo --username $username --password $password $db reduce_points.js
+
+## Run a test query
+echo "\033[1;35m\n\nTest query for $test_postcode in collection $penalty_postcode_collection"
+echo "\033[0m"
+mongo --username $username --password $password $db --eval "db.$penalty_postcode_collection.find({\"District\" : \"$test_postcode\"}).forEach(printjson)"
