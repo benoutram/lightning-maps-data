@@ -21,6 +21,8 @@ class AccidentDataService extends Loggable with DataService {
   def transform(value: Map[String, String]): Accident = {
     new Accident(easting = value(AccidentKeys.EASTING),
       northing = value(AccidentKeys.NORTHING),
+      latitude = value(AccidentKeys.LATITUDE),
+      longitude = value(AccidentKeys.LONGITUDE),
       policeForce = value(AccidentKeys.POLICE_FORCE),
       severity = value(AccidentKeys.SEVERITY),
       numOfVehicles = value(AccidentKeys.NUM_OF_VEHICLES),

@@ -4,6 +4,8 @@ import lightning.maps.model.CanPersist
 
 class Accident(easting: String,
   northing: String,
+  latitude: String,
+  longitude: String,
   policeForce: String,
   severity: String,
   numOfVehicles: String,
@@ -21,6 +23,8 @@ class Accident(easting: String,
   def vals: List[(String, Any)] = {
     List((AccidentKeys.EASTING, easting),
       (AccidentKeys.NORTHING, northing),
+      (AccidentKeys.LATITUDE, latitude),
+      (AccidentKeys.LONGITUDE, longitude),
       (AccidentKeys.POLICE_FORCE, policeForce),
       (AccidentKeys.SEVERITY, severity),
       (AccidentKeys.NUM_OF_VEHICLES, numOfVehicles),
